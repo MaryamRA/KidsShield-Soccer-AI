@@ -163,6 +163,58 @@ def elite_status(player):
         print("NOT elite status")
 
 
+
+def pitch_plot(player, position, csv_file):
+
+    movement_df = pd.read_csv(csv_file)
+
+   x_coordinates = movement_df["x_coordinates"]
+   y_coordinates = movement_df["y_coordinates"]
+
+
+    pitch = Pitch(
+        pitch_type='statsbomb',
+        pitch_color='#aabb97',
+        line_color='white'
+    )
+
+    fig, ax = pitch.draw(figsize=(10,7))
+
+
+    bin_statistic = pitch.bin_statistic(
+        x_coordinates,
+        y_coordinates,
+        statistic='count',
+        bins=(12,8)
+    )
+
+
+    pitch.heatmap(
+        bin_statistic,
+        ax=ax,
+        cmap='Reds',
+        edgecolor='white',
+        alpha=0.6
+    )
+
+
+    pitch.scatter(
+        x_coordinates,
+        y_coordinates,
+        c='black',
+        s=50,
+        ax=ax
+    )
+
+
+    plt.title(
+        f"{player}'s Soccer Heatmap - {position}"
+    )
+
+
+    return fig
+
+
 def create_player_csv(position, filename):
 
     if position == "Left Winger":
@@ -177,47 +229,27 @@ def create_player_csv(position, filename):
             'frame': list(range(1, 21)),
             'x_coordinates' : [70,75,80,85,90,95,100,102,105,108,110,112,115,108,104,100,95,90,88,110],
             'y_coordinates' : [35,38,40,42,40,38,35,37,40,42,39,36,40,45,48,50,45,42,38,35]
-        }
-    elif position == "Midfielder":
+        }     
+    elif position == "Midfielder" :
          data = {
             'frame': list(range(1, 21)),
             'x_coordinates' : [35,40,45,50,55,60,65,70,60,55,50,45,40,55,65,75,70,60,50,45],
             'y_coordinates' : [25,30,35,40,45,40,35,30,25,20,25,30,35,45,50,45,40,35,30,25]
-        }
+        }     
     elif position == "Right Defender":
          data = {
             'frame': list(range(1, 21)),
             'x_coordinates' : [15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110],
             'y_coordinates' : [70,72,68,70,72,74,76,74,72,70,68,70,72,74,76,72,68,65,60,55]
-         }
+         }  
+    else:
+        print("❌ Invalid position.")
+        return
 
-    # Save to CSV
+    # Create DataFrame
     df = pd.DataFrame(data)
-    df.to_csv("player_movement.csv", index=False)
 
+    # Save CSV
+    df.to_csv(filename, index=False)
 
-
-def pitch_plot (player, position, csv_file):
-
-    # 1. Load CSV
-    movement_df = pd.read_csv(csv_file)
-    x_coordinates = movement_df["x"]
-    y_coordinates = movement_df["y"]
-
-
-    # 2. Create a professional soccer pitch layout
-    pitch = Pitch(pitch_type='statsbomb', pitch_color='#aabb97', line_color='white')
-    fig, ax = pitch.draw(figsize=(10, 7))
-
-
-    # 3. Plot the touches as a heatmap (2D Histogram)
-    bin_statistic = pitch.bin_statistic(x_coordinates, y_coordinates, statistic='count', bins=(12, 8))
-    pcm = pitch.heatmap(bin_statistic, ax=ax, cmap='Reds', edgecolor='#f9f9f9', alpha=0.6)
-
-    # 4. Draw individual touch points on top
-    pitch.scatter(x_coordinates, y_coordinates, c='black', s=50, ax=ax, label='Ball Touches')
-
-    plt.title(f"{player}'s Soccer Heatmap - {position}", fontsize=18, fontweight='bold', pad=15)
-    plt.savefig("phase1_heatmap.png", bbox_inches='tight')
-    plt.show()
-
+    print(f"✅ {filename} created successfully.")  
