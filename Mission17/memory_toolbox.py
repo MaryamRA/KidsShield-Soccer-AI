@@ -9,6 +9,20 @@ import json
 
 MEMORY_FILE_NAME = "soccer_memory.json"
 
+# ============================================================
+# LOAD MEMORY SAFELY
+# ============================================================
+
+def load_memory():
+
+    if os.path.exists(mt.MEMORY_FILE_NAME):
+
+        return mt.recall()
+
+    else:
+
+        return {}
+
 
 # ============================================================
 # SAVE MEMORY

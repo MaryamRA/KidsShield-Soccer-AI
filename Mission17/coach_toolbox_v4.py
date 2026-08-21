@@ -91,7 +91,17 @@ def needs_rest(player):
 
 
 def is_forward(player):
-    if player["position"] in ["LW", "CF", "RW"]:
+"""
+    Determine whether the player plays as a forward.
+
+    Args:
+        player: Dictionary containing the player's information.
+
+    Returns:
+        True if the player's position is Forward,
+        otherwise False.
+    """
+    if player["position"] in ["LW", "CF", "RW" , "Forward"]:
         return True
 
     else:

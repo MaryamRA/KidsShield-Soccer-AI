@@ -1,8 +1,7 @@
 import pandas as pd
 
-Artin_FC_v3 =
+Artin_FC_v3 = [ 
 
-[
 {'name': 'Artin', 'age': 15, 'position': 'Forward', 'goals': [2, 1, 0, 3], 'assists': [1, 0, 2, 1], 'passes_completed': [25, 30, 22, 28], 'total_passes': [28, 32, 26, 30], 'passing': 84, 'defending': 45, 'stamina': 90, 'speed': 92, 'shooting': 88, 'total_goals': 6, 'total_assists': 4},
 
 {'name': 'Messi', 'age': 34, 'position': 'Forward', 'goals': [2, 3, 1, 2], 'assists': [1, 1, 2, 0], 'passes_completed': [40, 42, 38, 45], 'total_passes': [42, 43, 40, 46], 'passing': 85, 'defending': 38, 'stamina': 85, 'speed': 89, 'shooting': 96, 'total_goals': 8, 'total_assists': 4},
