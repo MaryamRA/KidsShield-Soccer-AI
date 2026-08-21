@@ -81,14 +81,6 @@ def passing_accuracy(player):
     accuracy = (total_comp / total_att) * 100
     return accuracy
 
-def needs_rest(player):
-
-    if calculate_goals(player) > 5:
-        return True
-
-    else:
-        return False
-
 
 def is_forward(player):
 """
@@ -117,12 +109,6 @@ def needs_endurance_training(player):
         return False
 
 
-def excellent_stamina(player):
-    for cp in player["passes_completed"]:
-        if cp <= 20:
-            return False
-    return True
-
 
 def calculate_overall_rating(player):
     # your code here
@@ -135,13 +121,136 @@ def calculate_overall_rating(player):
 
 
 def needs_shooting_practice(player):
+    """
+    Determine whether a player needs shooting practice.
 
-    if player["shots_on_target"] < 5:
+    The function evaluates the player's shooting performance
+    using the shooting-related information stored in the
+    player dictionary.
+
+    The player dictionary is expected to contain:
+        - "shooting"
+        - "total_goals"
+        - "shots_on_target"
+
+    Args:
+        player (dict):
+            A dictionary containing the player's soccer
+            performance statistics.
+
+    Returns:
+        bool:
+            True if the player's shooting performance indicates
+            that additional shooting practice is recommended.
+            False otherwise.
+
+    Example:
+        >>> player = {
+        ...     "shooting": 88,
+        ...     "total_goals": 6,
+        ...     "shots_on_target": 5
+        ... }
+        >>> needs_shooting_practice(player)
+        False
+    """
+
+    shooting = player["shooting"]
+    total_goals = player["total_goals"]
+    shots_on_target = player["shots_on_target"]
+
+    # Shooting score below 70 indicates that
+    # additional shooting practice is recommended.
+    if shooting < 70:
         return True
-    else:
-        return False
+
+    # Low goal production can also indicate
+    # that additional shooting practice is useful.
+    if total_goals < 5:
+        return True
+
+    # Few shots on target can indicate a need
+    # for additional shooting practice.
+    if shots_on_target < 3:
+        return True
+
+    return False
+
+def needs_rest(player):
+    """
+    Determine whether a player needs additional rest.
+
+    The function evaluates the player's stamina level.
+
+    The player dictionary is expected to contain:
+        - "stamina"
+
+    Args:
+        player (dict):
+            A dictionary containing the player's soccer
+            performance statistics.
+
+    Returns:
+        bool:
+            True if the player's stamina is below the
+            recommended threshold and additional rest
+            may be useful.
+            False otherwise.
+
+    Example:
+        >>> player = {
+        ...     "name": "Artin",
+        ...     "stamina": 90
+        ... }
+        >>> needs_rest(player)
+        False
+    """
+
+    stamina = player["stamina"]
+
+    if stamina < 60:
+        return True
+
+    return False
 
 
+# ============================================================
+
+
+def excellent_stamina(player):
+    """
+    Determine whether a player's stamina is excellent.
+
+    The function checks the player's stamina score against
+    the threshold used by the coaching system.
+
+    The player dictionary is expected to contain:
+        - "stamina"
+
+    Args:
+        player (dict):
+            A dictionary containing the player's soccer
+            performance statistics.
+
+    Returns:
+        bool:
+            True if the player's stamina is 80 or higher.
+            False otherwise.
+
+    Example:
+        >>> player = {
+        ...     "name": "Artin",
+        ...     "stamina": 90
+        ... }
+        >>> excellent_stamina(player)
+        True
+    """
+
+    stamina = player["stamina"]
+
+    if stamina >= 80:
+        return True
+
+    return False
 
 
 def coach_decision(player):
